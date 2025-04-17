@@ -1,0 +1,23 @@
+name: Send Dispatch on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '!v*-*'  # Exclude pre-release like v1.2.3-beta
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send repository_dispatch to receiver repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TEST_DISPATCH_TOKEN }}
+          repository: hilaryRope/repo-dispatch-receiver
+          event-type: test-dispatch
+          client-payload: |
+            {
+              "version": "${{ github.ref_name }}",
+              "repo": "${{ github.repository }}"
+            }
