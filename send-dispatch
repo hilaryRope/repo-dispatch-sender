@@ -5,6 +5,7 @@ on:
     tags:
       - 'v*'
       - '!v*-*'  # Exclude pre-release like v1.2.3-beta
+  workflow_dispatch:  # 👈 This adds manual trigger via GitHub UI
 
 jobs:
   dispatch:
